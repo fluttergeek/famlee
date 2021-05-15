@@ -2,7 +2,7 @@ import React, { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { auth } from "./index";
-import Dashboard from "./components/pages/Dashboard";
+import Rooms from "./components/pages/Rooms";
 import SignIn from "./components/pages/SignIn";
 import PrivateRoute from "./components/Auth/PrivateRoute";
 import PublicRoute from "./components/Auth/PublicRoute";
@@ -39,7 +39,7 @@ const App: FC = () => {
       <Switch>
         <PublicRoute path="/signin" component={SignIn} exact />
         <PrivateRoute path="/signout" component={SignOut} exact />
-        <PrivateRoute path="/" component={Dashboard} exact />
+        <PrivateRoute path="/" component={Rooms} exact />
       </Switch>
     </Router>
   );
