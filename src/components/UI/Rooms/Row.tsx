@@ -14,6 +14,7 @@ interface Row {
   occupancy: boolean;
   index: number;
   onEdit: MouseEventHandler<HTMLButtonElement>;
+  onDelete: MouseEventHandler<HTMLButtonElement>;
 }
 
 const trLight = "border-b border-gray-200 bg-white hover:bg-gray-100";
@@ -40,7 +41,8 @@ const Row: FC<Row> = ({
   occupancy,
   guestID,
   capacity,
-  onEdit
+  onEdit,
+  onDelete,
 }) => {
   return (
     <tr className={index % 2 == 0 ? trLight : trDark} key={index}>
@@ -91,7 +93,7 @@ const Row: FC<Row> = ({
               d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
             />
           </ActionSVG>
-          <ActionSVG onClick={onEdit}>
+          <ActionSVG onClick={onDelete}>
             <path
               strokeLinecap="round"
               strokeLinejoin="round"

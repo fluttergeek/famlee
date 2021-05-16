@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 
 interface Label {
-    children: string
+    children: any
 }
 
 const InputLabel: FC<Label> = ({ children }) => {

@@ -8,19 +8,26 @@ import AddRoom from "./AddRoom";
 import SearchInput from "../../UI/SearchInput";
 import { firestore } from "../../..";
 import Row from "../../UI/Rooms/Row";
+import DeleteRoom from "./DeleteRoom";
 
 const Rooms: FC = () => {
   // const { user, success } = useSelector((state: RootState) => state.auth);
   const [isAddRoomOpen, setAddRoomModalState] = useState(false);
+  const [isDeleteRoomOpen, setDeleteRoomModalState] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [rooms, setRooms] = useState<any[]>([]);
   const [room, setRoom] = useState({}); // For MODAL
 
-  // Opens and closes the Modal to add Room
+  // Opens and closes the Modals
   const toggleAddRoom = (key: string = "") => {
     key == "" ? setRoom({}) : setRoom(rooms.find((r) => r.key == key));
     setAddRoomModalState(!isAddRoomOpen);
   };
+  const toggleDeleteRoom = (key: string = "") => {
+    key == "" ? setRoom({}) : setRoom(rooms.find((r) => r.key == key));
+    setDeleteRoomModalState(!isDeleteRoomOpen);
+  };
+
   // const dispatch = useDispatch();
   const pension: string = window.localStorage.getItem("pension")!;
   const roomCollection = firestore
@@ -50,6 +57,12 @@ const Rooms: FC = () => {
           isOpen={isAddRoomOpen}
           onClose={() => toggleAddRoom()}
           collection={roomCollection} // Collection Reference Firestore
+        />
+        <DeleteRoom
+          room={room}
+          isOpen={isDeleteRoomOpen}
+          onClose={() => toggleDeleteRoom()}
+          collection={roomCollection}
         />
         <div className="w-full lg:w-5/6">
           {/* UPPER TOOLS */}
@@ -103,6 +116,7 @@ const Rooms: FC = () => {
                     capacity={r.capacity}
                     index={index}
                     onEdit={() => toggleAddRoom(r.key)}
+                    onDelete={() => toggleDeleteRoom(r.key)}
                   />
                 ))}
               </tbody>
