@@ -25,6 +25,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
+firestore.enablePersistence().catch((err) => {
+  console.log("Unable to enable persistence")
+})
 
 ReactDOM.render(
   <Provider store={store}>

@@ -4,13 +4,18 @@ import Button from "../UI/Button";
 import Message from "../UI/Message";
 import { signin, setError } from "../../store/actions/authActions";
 import { RootState } from "../../store";
-import RightLoginSvg from "../UI/RightLoginSvg";
+import RightLoginSvg from "../UI/SignIn/RightLoginSvg";
+import Select from "../UI/SignIn/Select";
+import { firestore } from "../..";
 require("dotenv").config();
 
 const SignIn: FC = () => {
   const email = process.env.REACT_APP_FIREBASE_EMAIL!;
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const pensions = ["Serenity"];
+  const [pension, setPension] = useState(pensions[0]);
+
   const dispatch = useDispatch();
   const { error } = useSelector((state: RootState) => state.auth);
 
@@ -28,6 +33,7 @@ const SignIn: FC = () => {
       dispatch(setError(""));
     }
     setLoading(true);
+    window.localStorage.setItem("pension", pension);
     dispatch(signin({ email, password }, () => setLoading(false)));
   };
 
@@ -56,6 +62,16 @@ const SignIn: FC = () => {
               <div>
                 <div className="flex -mx-3">
                   <div className="w-full px-3 mb-5">
+                    <label className="text-xs font-semibold px-1">
+                      Select Pension House
+                    </label>
+                    <Select
+                      options={pensions}
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                        e.preventDefault();
+                        setPension(e.target.value);
+                      }}
+                    />
                     <label className="text-xs font-semibold px-1">
                       Password
                     </label>

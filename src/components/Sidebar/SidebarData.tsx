@@ -34,12 +34,6 @@ export const SidebarData: SideLink[] = [
         path: "/guests",
         cName: "nav-text",
       },
-      {
-        icon: <AiIcons.AiOutlineUserAdd />,
-        title: "CheckIn",
-        path: "/checkin",
-        cName: "nav-text",
-      },
     ],
   },
   {
