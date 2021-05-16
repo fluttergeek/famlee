@@ -24,24 +24,49 @@ const AddRoom: React.FC<ModalProps> = ({
   const [capacity, setCapacity] = useState("");
   const [description, setDesc] = useState("");
 
+  useEffect(() => {
+    // Necessary because cannot initialize in useState
+    // when room prop loads a bit later
 
-  console.log(number);
+    if (isOpen) {
+      setNumber(room["number"]?.toString() ?? "");
+      setPrice(room["price"]?.toString() ?? "");
+      setCapacity(room["capacity"]?.toString() ?? "");
+      setDesc(room["description"]?.toString() ?? "");
+    }
+  }, [isOpen]);
+
   const save = () => {
-    collection
-      .add({
-        number: parseInt(number),
-        price: parseFloat(price),
-        description: description,
-        capacity: 5,
-        duration: 0,
-        guestID: "",
-        people: 0,
-        occupied: false,
-      })
-      .then((docRef: any) => {
-        console.log("Document written with ID: ", docRef.id);
-        onClose();
-      });
+    if ("key" in room) {
+      collection
+        .doc(room["key"])
+        .update({
+          number: parseInt(number),
+          price: parseFloat(price),
+          description: description,
+          capacity: parseInt(capacity),
+        })
+        .then(() => {
+          console.log("Updated");
+          onClose();
+        });
+    } else {
+      collection
+        .add({
+          number: parseInt(number),
+          price: parseFloat(price),
+          description: description,
+          capacity: 5,
+          duration: 0,
+          guestID: "",
+          people: 0,
+          occupied: false,
+        })
+        .then((docRef: any) => {
+          console.log("Document written with ID: ", docRef.id);
+          onClose();
+        });
+    }
   };
 
   return isOpen ? (
